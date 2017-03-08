@@ -39,7 +39,7 @@ class Peoples extends Component {
                  {eachPeople.name}
                </Text>
              )
-           }))}
+           })}
         </ScrollView>
       </View>
     )
