@@ -28,6 +28,7 @@ export const fetchNews = (searchKey) => {
       .then(resp => {
         return dispatch(setNews(resp.hits))
       })
+      .catch(err => {})
   }
 }
 
@@ -40,5 +41,6 @@ export const fetchPeoples = () => {
       .then((resp) => {
         return dispatch(setPeoples(resp.results))
       })
+      .catch(err => {})
   }
 }

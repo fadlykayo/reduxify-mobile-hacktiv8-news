@@ -23,8 +23,13 @@ class Header extends Component {
             placeholder="Search"
             onChange={(event) => {
               this.props.setSearchKey(event.nativeEvent.text)
-              this.props.fetchNews(event.nativeEvent.text)
-              this.props.fetchPeoples(event.nativeEvent.text)
+              let that = this
+              let thatEventText = event.nativeEvent.text;
+              setTimeout(function () {
+                that.props.fetchNews(thatEventText)
+                that.props.fetchPeoples(thatEventText)
+              }, 1000)
+
             }}
           />
         </View>
