@@ -1,0 +1,3 @@
+rootProject.name = 'reduxHacktiv8News'
+
+include ':app'
