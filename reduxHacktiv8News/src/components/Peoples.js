@@ -8,7 +8,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Button
+  Button,
+  Image
 } from 'react-native'
 
 class Peoples extends Component {
