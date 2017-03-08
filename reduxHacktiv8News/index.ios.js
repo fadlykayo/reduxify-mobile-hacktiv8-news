@@ -7,16 +7,19 @@ import {
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import rootReducers from './reducers'
+import thunk from 'redux-thunk'
+import rootReducers from './src/reducers'
 import App from './src/App'
 
-const createStoreMiddleware = applyMiddleware()(createStore)
+const createStoreMiddleware = applyMiddleware(thunk)(createStore)
 
 export default class reduxHacktiv8News extends Component {
   render() {
     return (
       <Provider store={createStoreMiddleware(rootReducers)}>
-        <App />
+        <View style={styles.container}>
+          <App />
+        </View>
       </Provider>
     );
   }

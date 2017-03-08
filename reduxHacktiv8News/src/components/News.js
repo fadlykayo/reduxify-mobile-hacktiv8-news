@@ -1,19 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setSearchKey } from '../actions'
+import { fetchNews } from '../actions'
 
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  Button
+  Button,
+  Image
 } from 'react-native'
 
 class News extends Component {
   constructor (props) {
     super(props)
+  }
+
+  componentDidMount () {
+    this.props.fetchNews('')
   }
 
   render () {
@@ -30,9 +35,8 @@ class News extends Component {
         </View>
         <Text style={styles.title}>News</Text>
         <ScrollView style={styles.scroll}>
+          {this.props.news.length < 1 ? <Image style={styles.loading} source={require('./loading2.gif')} /> : <Text></Text>}
           {this.props.news
-            .filter((eachNews) => (eachNews.title === null ? '' : eachNews.title).match(new RegExp(this.props.searchKey, 'i')))
-            .filter(eachNews => item.title !== null && item.title !== '')
             .map((eachNews, index) => {
              return (
                <Text style={styles.list} key={index}>
@@ -65,6 +69,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 15,
   },
+  loading:{
+    width: 100,
+    height: 100,
+    margin: 120
+  },
   list: {
     padding: 3,
     marginLeft: 20,
@@ -77,9 +86,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    news: state.news,
-    searchKey: state.searchKey
+    news: state.news
+    .filter(eachNews => (eachNews.title === null ? '' : eachNews.title).match(new RegExp(state.searchKey, 'i')))
+    .filter(eachNews => eachNews.title !== null && eachNews.title !== '')
   }
 }
 
-export default connect(mapStateToProps, null)(News)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchNews: (news) => dispatch(fetchNews(news))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(News)

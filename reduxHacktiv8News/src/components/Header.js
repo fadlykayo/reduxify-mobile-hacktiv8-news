@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setSearchKey } from '../actions'
+import { setSearchKey, fetchNews, fetchPeoples } from '../actions'
 
 import {
   View,
@@ -21,9 +21,10 @@ class Header extends Component {
           <TextInput
             style={styles.searchInput}
             placeholder="Search"
-            value={this.props.searchKey}
             onChange={(event) => {
               this.props.setSearchKey(event.nativeEvent.text)
+              this.props.fetchNews(event.nativeEvent.text)
+              this.props.fetchPeoples(event.nativeEvent.text)
             }}
           />
         </View>
@@ -63,7 +64,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setSearchKey: (key) => dispatch(setSearchKey(key))
+    setSearchKey: (searchKeyword) => dispatch(setSearchKey(searchKeyword)),
+    fetchPeoples: (peoples) => dispatch(fetchPeoples(peoples)),
+    fetchNews: (news) => dispatch(fetchNews(news))
   }
 }
 

@@ -8,7 +8,7 @@ import {
 
 import { Header, News, Peoples } from './components'
 
-const App extends Component {
+class App extends Component {
   render () {
     return (
       <View>
@@ -18,11 +18,26 @@ const App extends Component {
           renderScene={(route, navigator) => {
             switch (route.name) {
               case 'News':
-                return (<News />)
+                return (
+                  <News
+                    sceneTitle={route.title}
+                    navigator={navigator}
+                  />
+                )
               case 'Peoples':
-                return (<Peoples />)
+                return (
+                  <Peoples
+                    sceneTitle={route.title}
+                    navigator={navigator}
+                  />
+                )
               default:
-                return (<News />)
+                return (
+                  <News
+                    sceneTitle={route.title}
+                    navigator={navigator}
+                  />
+                )
             }
           }}
         />

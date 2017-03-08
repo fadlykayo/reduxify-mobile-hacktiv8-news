@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { setSearchKey } from '../actions'
+import { fetchPeoples } from '../actions'
 
 import {
   View,
@@ -16,6 +16,10 @@ class Peoples extends Component {
     super(props)
   }
 
+  componentDidMount () {
+    this.props.fetchPeoples()
+  }
+
   render () {
     return (
       <View style={styles.peoples}>
@@ -27,15 +31,15 @@ class Peoples extends Component {
         </View>
         <Text style={styles.title}>Peoples</Text>
         <ScrollView style={styles.scroll}>
+          {this.props.peoples.length < 1 ? <Image style={styles.loading} source={require('./loading2.gif')} /> : <Text></Text>}
           {this.props.peoples
-            .filter((eachPeople) => (eachPeople.name === null ? '' : eachPeople.name).match(new RegExp(this.props.searchKey, 'i')))
             .map((eachPeople, index) => {
              return (
                <Text style={styles.list} key={index}>
                  {eachPeople.name}
                </Text>
              )
-           })}
+           }))}
         </ScrollView>
       </View>
     )
@@ -61,6 +65,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 15,
   },
+  loading:{
+    width: 100,
+    height: 100,
+    margin: 120
+  },
   list: {
     padding: 3,
     marginLeft: 20,
@@ -73,9 +82,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    peoples: state.peoples,
-    searchKey: state.searchKey
+    peoples: state.peoples
+    .filter(eachPeople => (eachPeople.name === null ? '' : eachPeople.name).match(new RegExp(state.searchKey, 'i')))
   }
 }
 
-export default connect(mapStateToProps, null)(Peoples)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchPeoples: () => dispatch(fetchPeoples())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Peoples)
